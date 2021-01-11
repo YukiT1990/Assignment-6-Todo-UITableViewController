@@ -50,8 +50,10 @@ class AddEditTaskTableViewController: UITableViewController, UIPickerViewDelegat
             // isCompleted
             
             title = "Edit Task"
+            priorityPickerView.isHidden = true
         } else {
             title = "Add Task"
+            priorityPickerView.isHidden = false
         }
 
         updateSaveButtonState()
