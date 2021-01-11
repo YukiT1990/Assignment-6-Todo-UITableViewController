@@ -37,7 +37,6 @@ class TaskTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
     }
     
@@ -46,7 +45,7 @@ class TaskTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    
+    // add and edit task
     @IBSegueAction func addTask(_ coder: NSCoder, sender: Any?) -> AddEditTaskTableViewController? {
         selectedRowsForEdit = [-1, -1]
         if let cell = sender as? UITableViewCell,
@@ -57,7 +56,6 @@ class TaskTableViewController: UITableViewController {
             return AddEditTaskTableViewController(coder: coder, task: taskToEdit, selectedPriority: indexPath.section)
         } else {
             // for adding
-            print(coder)
             return AddEditTaskTableViewController(coder: coder, task: nil, selectedPriority: 0)
         }
     }
@@ -99,10 +97,8 @@ class TaskTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var task = tasks[indexPath.section][indexPath.row]
+        // for checking task contents
 //        print("\(task.title) \(task.todoDescription) \(task.priorityNumber) \(task.isCompleted)")
-        
-        // change "isCompleted"
-        // the display not updated yet
         
         // for fripping isCompleted state
         if underEditingMode == false {
@@ -113,29 +109,25 @@ class TaskTableViewController: UITableViewController {
                 task.isCompleted = true
                 tasks[indexPath.section][indexPath.row] = task
             }
-            print("\(task.title) \(task.todoDescription) \(task.priorityNumber) \(task.isCompleted)")
-    //        tableView.reloadData()
             tableView.reloadRows(at: [indexPath], with: .none)
+        // for multiple delete
         } else {
-
-            print(task)
+            // for checking selected task
+//            print(task)
             selectedRows.append([indexPath.section, indexPath.row])
-            
         }
-        
     }
     
-    // for editing task
-    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath ) {
-        let taskToEdit = tasks[indexPath.section][indexPath.row]
-        print(taskToEdit)
-//        let nextViewController = AddEditTaskTableViewController(coder: coder, task: taskToEdit, selectedPriority: 0)
-//        navigationController!.pushViewController(nextViewController!, animated: true)
-        
-        
+    // to avoid deselected rows to be deleted
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        // for checking selectedRows
+//        print(selectedRows)
+        while let idx = selectedRows.firstIndex(of: [indexPath.section, indexPath.row]) {
+            selectedRows.remove(at: idx)
+        }
+        // for checking selectedRows
+//        print(selectedRows)
     }
-    
-    
     
     
     @IBAction func editButtonTapped(_ sender: UIBarButtonItem) {
@@ -143,21 +135,25 @@ class TaskTableViewController: UITableViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         let tableViewEditingMode = tableView.isEditing
         
-        print("Editing mode is ")
-        print(tableView.isEditing)
+        // check editing mode state
+//        print("Editing mode is ")
+//        print(tableView.isEditing)
         
         tableView.setEditing(!tableViewEditingMode, animated: true)
         
-        print("Editing mode is ")
-        print(tableView.isEditing)
+        // check editing mode state
+//        print("Editing mode is ")
+//        print(tableView.isEditing)
         underEditingMode = tableView.isEditing
     }
     
     
     @IBAction func deleteButtonTapped(_ sender: UIBarButtonItem) {
-        print(selectedRows)
+        // for checking selectedRows contents
+//        print(selectedRows)
         let sortedSelectedRows = selectedRows.sorted { $0[1] > $1[1] }
-        print(sortedSelectedRows)
+        // for checking sortedSelectedRows contents
+//        print(sortedSelectedRows)
 
         for indexPathList in sortedSelectedRows {
             tasks[indexPathList[0]].remove(at: indexPathList[1])
@@ -165,26 +161,6 @@ class TaskTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         // .none .delete .insert
@@ -202,47 +178,26 @@ class TaskTableViewController: UITableViewController {
     }
     
     
-    // priority -> section
+    // update editted or new task
     @IBAction func unwindToEmojiTableView(segue: UIStoryboardSegue) {
         guard segue.identifier == "saveUnwind",
               let sourceViewController = segue.source as? AddEditTaskTableViewController,
               let task = sourceViewController.task else { return }
-        print(task)
-        print(tableView.indexPathForSelectedRow ?? -1)
         var temporaryPath: IndexPath?
         if selectedRowsForEdit != [-1, -1] {
             temporaryPath = selectedRowsForEdit
         }
         if let selectedIndexPath = temporaryPath {
-            print(selectedIndexPath)
+            // for checking selectedIndexPath
+//            print(selectedIndexPath)
             tasks[selectedIndexPath.section][selectedIndexPath.row] = task
             tableView.reloadRows(at: [selectedIndexPath], with: UITableView.RowAnimation.none)
         } else {
             // new
             let newIndexPath = IndexPath(row: tasks[task.priorityNumber].count, section: task.priorityNumber)
-//            tasks.append(task)
             tasks[newIndexPath.section].append(task)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
     }
-    
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

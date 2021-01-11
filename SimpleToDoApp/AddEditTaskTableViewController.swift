@@ -20,8 +20,6 @@ class AddEditTaskTableViewController: UITableViewController, UIPickerViewDelegat
     @IBOutlet var saveButton: UIBarButtonItem!
     
     
-    
-//    var pickerViewForPriority: UIPickerView = UIPickerView()
     let priorityList = ["High Priority", "Medium Priority", "Low Priority"]
     
     
@@ -81,7 +79,6 @@ class AddEditTaskTableViewController: UITableViewController, UIPickerViewDelegat
     func updateSaveButtonState() {
         let titleText = titleTextField.text ?? ""
         let descriptionText = descriptionTextField.text ?? ""
-//        let priorityText = priorityTextField.text ?? ""
         saveButton.isEnabled = !titleText.isEmpty && !descriptionText.isEmpty
     }
     
@@ -97,7 +94,8 @@ class AddEditTaskTableViewController: UITableViewController, UIPickerViewDelegat
         let priority = selectedPriority
         let completionStatusDefault = false
         task = Task(title: title, todoDescription: todoDescription, priorityNumber: priority, isCompleted: completionStatusDefault)
-        print(task!)
+        // for checking task contents
+//        print(task!)
     }
     
     
