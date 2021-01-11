@@ -12,6 +12,7 @@ class TaskTableViewController: UITableViewController {
     var sectionTitles: [String] = ["High Priority", "Medium Priority", "Low Priority"]
     var underEditingMode: Bool = false
     var selectedRows: [IndexPath] = []
+    var selectedRowsForEdit: IndexPath = [-1, -1]
     
     
     @IBOutlet var editButton: UIBarButtonItem!
@@ -27,7 +28,7 @@ class TaskTableViewController: UITableViewController {
          Task(title: "Water banana tree", todoDescription: "To water the banana tree", priorityNumber: 0, isCompleted: true),
          Task(title: "Pickup cake", todoDescription: "To pickup the birthdaycake for my mother", priorityNumber: 0, isCompleted: false)],
         // section 1
-        [Task(title: "Study Chinese", todoDescription: "To study Chinese vocavularies", priorityNumber: 1, isCompleted: false),
+        [Task(title: "Study Chinese", todoDescription: "To study Chinese vocabularies", priorityNumber: 1, isCompleted: false),
          Task(title: "Study Swift", todoDescription: "To revise swift grammer", priorityNumber: 1, isCompleted: true)],
         // section 2
         [Task(title: "Practice piano", todoDescription: "Plactice playing the piano", priorityNumber: 2, isCompleted: true),
@@ -47,8 +48,18 @@ class TaskTableViewController: UITableViewController {
     
     
     @IBSegueAction func addTask(_ coder: NSCoder, sender: Any?) -> AddEditTaskTableViewController? {
-        // for adding
-        return AddEditTaskTableViewController(coder: coder, task: nil, selectedPriority: 0)
+        selectedRowsForEdit = [-1, -1]
+        if let cell = sender as? UITableViewCell,
+           let indexPath = tableView.indexPath(for: cell) {
+            // for editing
+            selectedRowsForEdit = indexPath
+            let taskToEdit = tasks[indexPath.section][indexPath.row]
+            return AddEditTaskTableViewController(coder: coder, task: taskToEdit, selectedPriority: indexPath.section)
+        } else {
+            // for adding
+            print(coder)
+            return AddEditTaskTableViewController(coder: coder, task: nil, selectedPriority: 0)
+        }
     }
     
     
@@ -118,8 +129,9 @@ class TaskTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath ) {
         let taskToEdit = tasks[indexPath.section][indexPath.row]
         print(taskToEdit)
-//        let nextViewController = AddEditTaskTableViewController(coder: NSCoder, task: taskToEdit, selectedPriority: 0)
+//        let nextViewController = AddEditTaskTableViewController(coder: coder, task: taskToEdit, selectedPriority: 0)
 //        navigationController!.pushViewController(nextViewController!, animated: true)
+        
         
     }
     
@@ -182,7 +194,9 @@ class TaskTableViewController: UITableViewController {
     
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+        tableView.allowsMultipleSelection = false
+        tableView.allowsMultipleSelectionDuringEditing = false
+        
         let movedTask = tasks[fromIndexPath.section].remove(at: fromIndexPath.row)
         tasks[to.section].insert(movedTask, at: to.row)
     }
@@ -193,7 +207,14 @@ class TaskTableViewController: UITableViewController {
         guard segue.identifier == "saveUnwind",
               let sourceViewController = segue.source as? AddEditTaskTableViewController,
               let task = sourceViewController.task else { return }
-        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+        print(task)
+        print(tableView.indexPathForSelectedRow ?? -1)
+        var temporaryPath: IndexPath?
+        if selectedRowsForEdit != [-1, -1] {
+            temporaryPath = selectedRowsForEdit
+        }
+        if let selectedIndexPath = temporaryPath {
+            print(selectedIndexPath)
             tasks[selectedIndexPath.section][selectedIndexPath.row] = task
             tableView.reloadRows(at: [selectedIndexPath], with: UITableView.RowAnimation.none)
         } else {

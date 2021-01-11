@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6109CC4D25AC480400FD9972 /* EditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6109CC4C25AC480400FD9972 /* EditTableViewController.swift */; };
 		6124110D25A95DFE00B6128F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6124110C25A95DFE00B6128F /* AppDelegate.swift */; };
 		6124110F25A95DFE00B6128F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6124110E25A95DFE00B6128F /* SceneDelegate.swift */; };
 		6124111425A95DFE00B6128F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6124111225A95DFE00B6128F /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6109CC4C25AC480400FD9972 /* EditTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTableViewController.swift; sourceTree = "<group>"; };
 		6124110925A95DFE00B6128F /* SimpleToDoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleToDoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6124110C25A95DFE00B6128F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6124110E25A95DFE00B6128F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				6124110E25A95DFE00B6128F /* SceneDelegate.swift */,
 				6124111225A95DFE00B6128F /* Main.storyboard */,
 				614AA5F925AAB527006A556F /* AddEditTaskTableViewController.swift */,
+				6109CC4C25AC480400FD9972 /* EditTableViewController.swift */,
 				614AA5F225AAA895006A556F /* TaskTableViewCell.swift */,
 				6124112525A9618500B6128F /* TaskTableViewController.swift */,
 				6124112225A95F2400B6128F /* Task.swift */,
@@ -149,6 +152,7 @@
 				6124110D25A95DFE00B6128F /* AppDelegate.swift in Sources */,
 				6124112325A95F2400B6128F /* Task.swift in Sources */,
 				614AA5FA25AAB527006A556F /* AddEditTaskTableViewController.swift in Sources */,
+				6109CC4D25AC480400FD9972 /* EditTableViewController.swift in Sources */,
 				614AA5F325AAA895006A556F /* TaskTableViewCell.swift in Sources */,
 				6124112625A9618500B6128F /* TaskTableViewController.swift in Sources */,
 				6124110F25A95DFE00B6128F /* SceneDelegate.swift in Sources */,

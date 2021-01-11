@@ -63,6 +63,7 @@
                                     <outlet property="descriptionLabel" destination="iwv-FI-y0Z" id="ELa-eC-6WK"/>
                                     <outlet property="isCompletedLabel" destination="Djg-4D-MxY" id="aI6-yV-dPD"/>
                                     <outlet property="nameLabel" destination="kR7-hq-zNd" id="ge4-x2-wcj"/>
+                                    <segue destination="Ik8-TU-uPi" kind="presentation" trigger="accessoryAction" id="8Xz-4a-FWm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -255,6 +256,9 @@
             <point key="canvasLocation" x="-919" y="22"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="8Xz-4a-FWm"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
